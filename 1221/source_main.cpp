@@ -40,6 +40,9 @@ chip map[MAP_SIZE][MAP_SIZE] = {
 									{WALL, GOAL, WALL, WALL, WALL}
 							   };
 
+void loadData(Point *pos, FILE *userdata);
+void saveData(Point *pos, FILE *userdata);
+
 // 現在セットされているマップチップから、マップとプレイヤーを出力する関数です。
 // 引数として、Point型構造体
 void show(Point pos, int dir){
@@ -122,7 +125,7 @@ void mapResolver(Point *pos, int input, int *dir, bool *game_end){
         case 4:
             new_pos.x = pos -> x - 1; new_pos.y = pos -> y; *dir = 180; break;
         default:
-            exit(0);
+        	break;
     }
 
 	if ((new_pos.x < 0 || new_pos.y < 0) ||
@@ -146,37 +149,43 @@ void mapResolver(Point *pos, int input, int *dir, bool *game_end){
 	return;
 }
 
-void loadData(Point *pos, FILE *userdata){
+void loadData(Point *pos){
+	// ローカル変数宣言
+	FILE *userdata;								// セーブデータ
+
 	CONTINUE:
-	if((userdata = fopen("userdata", "r+")) != NULL){
+	if((userdata = fopen("userdata", "r")) != NULL){
 		printf("セーブデータが見つかりました。続きから始めますか？\n");
 		printf("1:YES 2:NO\n> ");
 		switch(getInput(1,2)){
 			case 1:
-				fscanf(userdata, "%d %d %d", difficulty, pos -> x, pos -> y);
+				fscanf(userdata, "%d %d %d", &difficulty, &pos -> x, &pos -> y);
 				break;
 			case 2:
 				goto NEW_GAME;		}
 	} else {
 		NEW_GAME:
-		// ファイル新規作成
-		if((userdata = fopen("userdata", "w")) == NULL){
-			//ファイル新規作成失敗時、異常終了
-			printf("セーブデータの処理に失敗しました。プログラムを終了します。\n");
-			exit(1);
-		}
 		// 新規ゲーム処理
 		printf("新規にゲームを開始します。難易度を選択してください。\n");
 		printf("1:EASY 2:HARD\n> ");
 		difficulty = getInput(1, 2);
 	}
 
+	fclose(userdata);
+
 	return;
+}
+
+void saveData(Point *pos){
+	// ローカル変数宣言
+	FILE *userdata;
+	userdata = fopen("userdata", "w");
+	fprintf(userdata, "%d %d %d", difficulty, pos -> x, pos -> y);
+	fclose(userdata);
 }
 
 int main(void){
 	// ローカル変数宣言
-	FILE *userdata;								// セーブデータ
 	int input;										// プレイヤーの入力値
 	int dir = 270;								// プレイヤーの向き
 	Point pos;      							// プレイヤーの現在位置
@@ -187,7 +196,7 @@ int main(void){
 	srand((unsigned) time(NULL));
 	pos.x = MAP_SIZE - 2; pos.y = 0;
 
-	loadData(&pos, userdata);
+	loadData(&pos);
 
 	show(pos, dir);
 
@@ -198,13 +207,12 @@ int main(void){
 	    printf("-----------------------\n");
 	    printf("> ");
 		input = getInput(0, 4);
+		if (input == 0) { saveData(&pos); break; }
 
 		mapResolver(&pos, input, &dir, &game_end);
 
 		show(pos, dir);
 	}
-
-
 
 	return 0;
 }
