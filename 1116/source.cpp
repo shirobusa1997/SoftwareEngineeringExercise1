@@ -10,6 +10,8 @@
 // マップチップのサイズ(縦横サイズは統一)
 #define MAP_SIZE 5
 
+#pragma warning(disable:4996)
+
 // マップチップの構成要素
 typedef enum {EMPT, STRT, GOAL, WALL, HIDE, JUMP} chip;
 

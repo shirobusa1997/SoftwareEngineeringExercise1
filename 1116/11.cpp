@@ -1,22 +1,24 @@
 // ===========================================================
-// ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢å·¥å­¦æ¼”ç¿’I Software Engineering Exercise 1
+// ƒ\ƒtƒgƒEƒFƒAHŠw‰‰KI Software Engineering Exercise 1
 // 2018.11.09
-// v1.0 source_main.cpp ãƒ¡ã‚¤ãƒ³ã‚½ãƒ¼ã‚¹
-// s16t287 æªœå£å¤§åœ°
+// v1.0 source_main.cpp ƒƒCƒ“ƒ\[ƒX
+// s16t287 wŠ_‘å’n
 // ===========================================================
 
 #include <stdio.h>
 
-// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®ã‚µã‚¤ã‚º(ç¸¦æ¨ªã‚µã‚¤ã‚ºã¯çµ±ä¸€)
+// ƒ}ƒbƒvƒ`ƒbƒv‚ÌƒTƒCƒY(c‰¡ƒTƒCƒY‚Í“ˆê)
 #define MAP_SIZE 5
 
-// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®æ§‹æˆè¦ç´ 
+#pragma warning(disable:4996)
+
+// ƒ}ƒbƒvƒ`ƒbƒv‚Ì\¬—v‘f
 typedef enum {EMPT, STRT, GOAL, WALL, HIDE, JUMP} chip;
 
-// ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã®æ§‹æˆè¦ç´ ã«å¯¾å¿œã™ã‚‹å‡ºåŠ›å†…å®¹
-const char *chip_disp[] = {" ", "S", "G", "â– ", "*", "J"};
+// ƒ}ƒbƒvƒ`ƒbƒv‚Ì\¬—v‘f‚É‘Î‰‚·‚éo—Í“à—e
+const char *chip_disp[] = {" ", "S", "G", "¡", "*", "J"};
 
-// ãƒãƒƒãƒ—ãƒãƒƒãƒ—
+// ƒ}ƒbƒvƒ`ƒbƒv
 chip map[MAP_SIZE][MAP_SIZE] = {
 									{WALL, WALL, WALL, STRT, WALL},
 									{WALL, JUMP, EMPT, EMPT, WALL},
@@ -25,7 +27,7 @@ chip map[MAP_SIZE][MAP_SIZE] = {
 									{WALL, GOAL, WALL, WALL, WALL}
 							   };
 
-// ç¾åœ¨ã‚»ãƒƒãƒˆã•ã‚Œã¦ã„ã‚‹ãƒãƒƒãƒ—ãƒãƒƒãƒ—ã‹ã‚‰ã€ãƒãƒƒãƒ—ã‚’å‡ºåŠ›ã™ã‚‹é–¢æ•°ã§ã™ã€‚
+// Œ»İƒZƒbƒg‚³‚ê‚Ä‚¢‚éƒ}ƒbƒvƒ`ƒbƒv‚©‚çAƒ}ƒbƒv‚ğo—Í‚·‚éŠÖ”‚Å‚·B
 void show(){
 	for(int y = 0; y < MAP_SIZE; y++){
 		for(int x = 0; x < MAP_SIZE; x++){
@@ -36,13 +38,13 @@ void show(){
 	return;
 }
 
-// minä»¥ä¸Šã€maxä»¥ä¸‹ã®æ•°å­—ã‚’æ¨™æº–å‡ºåŠ›ã‹ã‚‰å–å¾—ã—ã€mainé–¢æ•°ã«è¿”ã™é–¢æ•°ã§ã™ã€‚
+// minˆÈãAmaxˆÈ‰º‚Ì”š‚ğ•W€o—Í‚©‚çæ“¾‚µAmainŠÖ”‚É•Ô‚·ŠÖ”‚Å‚·B
 int getInput(int min, int max){
 	int userdata;
 
-	printf("é€²è¡Œæ–¹å‘ã‚’é¸ã‚“ã§ãã ã•ã„ã€‚\n");
+	printf("is•ûŒü‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢B\n");
 	printf("-----------------------\n");
-	printf("1:â†“ 2:â†‘ 3:â†’ 4:â†\n");
+	printf("1:« 2:ª 3:¨ 4:©\n");
 	printf("-----------------------\n");
 	printf("> ");
 
@@ -50,7 +52,7 @@ int getInput(int min, int max){
 		scanf("%d", &userdata);
 
 		if (userdata < min || userdata > max){
-			printf("å…¥åŠ›å€¤ãŒæ­£ã—ãã‚ã‚Šã¾ã›ã‚“ã€‚å†å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚\n");
+			printf("“ü—Í’l‚ª³‚µ‚­‚ ‚è‚Ü‚¹‚ñBÄ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B\n");
 			printf("> ");
 		} else { return userdata; }
 	}
